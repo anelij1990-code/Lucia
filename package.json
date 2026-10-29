@@ -1,0 +1,16 @@
+{
+  "name": "lucia-forest-game",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "build:portable": "tsc --noEmit && node scripts/build-portable.mjs",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "playwright test"
+  },
+  "dependencies": { "three": "0.180.0" },
+  "devDependencies": { "@types/three": "0.180.0", "typescript": "5.9.3", "esbuild": "0.25.12", "vite": "7.3.7", "@playwright/test": "1.64.1" }
+}

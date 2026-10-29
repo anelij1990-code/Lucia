@@ -1,0 +1,13 @@
+import { build } from 'esbuild';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+const result = await build({ entryPoints: ['src/main.ts'], bundle: true, format: 'iife', target: 'es2022', minify: true, write: false, legalComments: 'inline' });
+const css = await readFile('src/style.css', 'utf8');
+const license = await readFile('node_modules/three/LICENSE', 'utf8');
+let html = await readFile('index.html', 'utf8');
+html = html.replace('<link rel="stylesheet" href="/src/style.css">', `<style>${css}</style>`);
+const script = result.outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
+html = html.replace('<script type="module" src="/src/main.ts"></script>', () => `<script>${script}</script>`);
+html += `\n<!-- Three.js license:\n${license}\n-->\n`;
+await mkdir('ready-to-play', { recursive: true });
+await writeFile('ready-to-play/Lucia-play.html', html);
+console.log('Created ready-to-play/Lucia-play.html — fully self-contained, no server needed.');
